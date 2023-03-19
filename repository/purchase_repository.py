@@ -11,7 +11,7 @@ from model.purchase_model import Purchase
 class PurchaseRepository:
     def __init__(self):
         self.client = MongoClient(os.getenv('MONGODB_URI'))
-        self.collection = self.client['compras-bot']['purchases2']
+        self.collection = self.client['compras-bot']['purchases']
 
     def create(self, purchase: Purchase):
         self.collection.insert_one(purchase.dict(by_alias=True))
