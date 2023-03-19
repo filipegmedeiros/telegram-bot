@@ -8,7 +8,6 @@ from telebot.types import Message
 
 from config.containers import Container
 from config.routes import configure_routes
-from service import bot_service
 from service.bot_service import is_command, BotService
 
 load_dotenv()
@@ -44,7 +43,7 @@ def add_purchase(message: Message,
 
 @bot.message_handler(commands=['fatura'])
 def command_show_debts(message: Message,
-                 service: BotService = container.bot_service()):
+                       service: BotService = container.bot_service()):
     chat_id = message.chat.id
     try:
         message = service.list_debts(chat_id)
