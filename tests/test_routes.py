@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-from modules import modules
+from service import bot_service
 
 
 def test_index():
