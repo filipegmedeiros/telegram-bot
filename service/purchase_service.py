@@ -38,10 +38,14 @@ class PurchaseService:
 
     def get_purchases_due_month(self, user_uuid: int) -> List[Purchase]:
         due_purchases = self.purchase_repository.get_all_by_user_uuid_and_month(user_uuid)
-
         due_purchases = [p for p in due_purchases if p.installments[0] <= p.installments[1]]
 
-        # sort by installments, value_month and bought_at
-        due_purchases.sort(key=lambda p: (p.installments[1] - p.installments[0], -p.value_month, p.bought_at),
-                           reverse=True)
         return due_purchases
+
+    def update_month_purchases(self):
+        user_uuids = self.purchase_repository.get_all_users_uuid()
+        for user_uuid in user_uuids:
+            self.purchase_repository.update_due_purchases(user_uuid)
+
+    def get_all_users(self) -> List[str]:
+        return self.purchase_repository.get_all_users_uuid()

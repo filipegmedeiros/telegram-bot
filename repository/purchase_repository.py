@@ -1,5 +1,4 @@
 import os
-from operator import attrgetter
 from typing import List, Optional
 
 from bson import ObjectId
@@ -39,14 +38,8 @@ class PurchaseRepository:
 
         purchases = [Purchase(**p) for p in self.collection.find(query)]
 
-        # ordenar pelo critério 1, maior diferença entre a tupla de installments
-        purchases.sort(key=lambda p: abs(p.installments[0] - p.installments[1]), reverse=True)
-
-        # desempate pelo critério 2, maior value_month
-        purchases.sort(key=attrgetter('value_month'), reverse=True)
-
-        # desempate pelo critério 3, bought_at mais recente
-        purchases.sort(key=attrgetter('bought_at'), reverse=True)
+        purchases.sort(key=lambda p: (p.installments[1] - p.installments[0], p.value_month, p.bought_at),
+                       reverse=True)
 
         return purchases
 

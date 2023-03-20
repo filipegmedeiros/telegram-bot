@@ -1,6 +1,7 @@
 import locale
 import re
 from datetime import datetime
+from typing import List
 
 from telebot.formatting import escape_markdown
 
@@ -21,6 +22,7 @@ def is_command(text):
 class BotService:
 
     def __init__(self, purchase_service: PurchaseService):
+
         self.purchase_service = purchase_service
 
     def add_purchase(self, chat_id: int, purchase_string: str):
@@ -60,3 +62,9 @@ class BotService:
     def escape_markdown(text: str) -> str:
         return text.replace("-", "\\-").replace(">", "\\>") \
             .replace("+", "\\+").replace(".", ",").replace("(", "\\(").replace(")", "\\)")
+
+    def update_month_purchases(self):
+        self.purchase_service.update_month_purchases()
+
+    def get_all_users(self) -> List[str]:
+        return self.purchase_service.get_all_users()
